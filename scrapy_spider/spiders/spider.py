@@ -24,10 +24,15 @@ class InitSpider(scrapy.Spider):
         
     def parse(self, response):
         title_list = response.xpath("//article[@class = 'product_pod']/h3/a/text()").extract()
+        price_list = response.xpath("//p[@class = 'price_color']/text()").extract()
+
+        convert_list = dict(zip(title_list , price_list))
+        book_list = list(convert_list.items())
 
 
-        with open("project result/v1.1/Books.txt", 'a+') as Fin:
 
-            for i in range(0, len(title_list)):
-                Fin.write(str(i) + " : " + title_list[i] + "\n")
+        with open("project result/v1.2/Books.txt", 'a+') as Fin:
+
+            for i, j in book_list:
+                Fin.write( i + " >>> Price : " + j + "\n")
             Fin.close()
